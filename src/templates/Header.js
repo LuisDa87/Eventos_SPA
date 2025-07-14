@@ -63,7 +63,14 @@ const Header = { // Mantenemos el nombre Header para no romper importaciones
         `;
     },
     after_render: async () => {
-        lucide.createIcons();
+        // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+        // Verificamos si la librería 'lucide' ya está disponible en el objeto 'window'.
+        // Si no lo está, no hacemos nada para evitar el error.
+        // Como el router se ejecuta en cada cambio de hash, eventualmente los iconos se cargarán.
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+        
         const logoutButton = document.getElementById('logout-button');
         if (logoutButton) {
             logoutButton.addEventListener('click', (e) => {
