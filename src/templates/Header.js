@@ -1,70 +1,82 @@
 import { getSession, clearSession } from '../utils/session';
 
-const Header = {
+const Sidebar = {
     render: async () => {
         const session = getSession();
+        if (!session) return ''; // No renderizar nada si no hay sesión
 
-        // --- Vista para Visitantes (sin sesión) ---
-        const visitorNav = `
-            <div class="flex items-center space-x-4">
-                <a href="#/login" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition">
-                    Iniciar Sesión
+        // Usamos la API de DiceBear para generar un avatar único basado en el nombre del usuario
+        const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${session.name}`;
+
+        // --- Definición de los enlaces de navegación según el rol ---
+        const navLinks = {
+            admin: `
+                <a href="#/admin/dashboard" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i> Dashboard
                 </a>
-                <a href="#/register" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium transition">
-                    Registrarse
+                <a href="#/admin/events" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="calendar-check" class="w-5 h-5 mr-3"></i> Administrar Eventos
                 </a>
-            </div>
-        `;
-
-        // --- Vista para usuarios con rol "register" ---
-        const registerNav = `
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-300">Hola, ${session ? session.name : ''}</span>
-                <a href="#/create-event" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Crear Evento</a>
-                <a href="#/my-events" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Mis Eventos</a>
-                <a href="#/my-subscriptions" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Mis Suscripciones</a>
-                <a href="#" id="logout-button" class="bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium transition">Salir</a>
-            </div>
-        `;
-
-        // --- Vista para usuarios con rol "admin" ---
-        const adminNav = `
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-300 font-semibold">Hola, ${session ? session.name : ''} (Admin)</span>
-                <a href="#/create-event" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Crear Evento</a>
-                <a href="#/admin/events" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Administrar Eventos</a>
-                <a href="#/admin/dashboard" class="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md">Dashboard</a>
-                <a href="#" id="logout-button" class="bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-sm font-medium transition">Salir</a>
-            </div>
-        `;
-        
-        let navContent;
-        if (!session) {
-            navContent = visitorNav;
-        } else if (session.role === 'admin') {
-            navContent = adminNav;
-        } else if (session.role === 'register') {
-            navContent = registerNav;
-        } else {
-            navContent = visitorNav; // Por seguridad, si hay un rol desconocido, se trata como visitante
-        }
+                <a href="#/create-event" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="plus-circle" class="w-5 h-5 mr-3"></i> Crear Evento
+                </a>
+            `,
+            register: `
+                <a href="#/" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="home" class="w-5 h-5 mr-3"></i> Inicio
+                </a>
+                <a href="#/my-events" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="calendar-plus" class="w-5 h-5 mr-3"></i> Mis Eventos
+                </a>
+                <a href="#/my-subscriptions" class="flex items-center px-4 py-3 bg-purple-600 text-white font-bold rounded-lg shadow-lg">
+                    <i data-lucide="ticket" class="w-5 h-5 mr-3"></i> Mis Suscripciones
+                </a>
+            `,
+            visitor: `
+                <a href="#/" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                    <i data-lucide="home" class="w-5 h-5 mr-3"></i> Ver Eventos
+                </a>
+            `
+        };
 
         const view = `
-            <nav class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex justify-between h-16">
-                        <div class="flex items-center">
-                            <a href="#/" class="font-bold text-2xl tracking-wider">EVENTOS.CO</a>
-                        </div>
-                        ${navContent}
+            <div class="w-64 min-h-screen bg-purple-100 p-6 flex flex-col shadow-lg">
+                <h1 class="text-2xl font-bold text-purple-800 mb-8">EventManager</h1>
+                
+                <!-- Perfil de Usuario -->
+                <div class="flex items-center mb-10">
+                    <img src="${avatarUrl}" alt="Avatar de ${session.name}" class="w-16 h-16 rounded-full border-4 border-purple-200">
+                    <div class="ml-4">
+                        <h2 class="font-bold text-lg text-gray-800">${session.name}</h2>
+                        <p class="text-sm text-purple-700 capitalize">${session.role}</p>
                     </div>
                 </div>
-            </nav>
+
+                <!-- Navegación Principal -->
+                <nav class="flex flex-col space-y-2 flex-grow">
+                    ${navLinks[session.role] || navLinks.visitor}
+                </nav>
+
+                <!-- Botón de Salir / Iniciar Sesión -->
+                <div class="mt-auto">
+                    ${session.role !== 'visitor' ? 
+                        `<a href="#" id="logout-button" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-200 rounded-lg">
+                            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i> Salir
+                         </a>` :
+                        `<a href="#/login" class="flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
+                            <i data-lucide="log-in" class="w-5 h-5 mr-3"></i> Iniciar Sesión
+                         </a>`
+                    }
+                </div>
+            </div>
         `;
         return view;
     },
     after_render: async () => {
-        // El listener para el botón de logout solo se añade si el botón existe en el DOM
+        // Reemplaza los placeholders de iconos con los SVG reales de Lucide Icons
+        lucide.createIcons();
+
+        // El listener para el botón de logout solo se añade si el botón existe
         const logoutButton = document.getElementById('logout-button');
         if (logoutButton) {
             logoutButton.addEventListener('click', (e) => {
@@ -75,4 +87,4 @@ const Header = {
     }
 };
 
-export default Header;
+export default Sidebar;
