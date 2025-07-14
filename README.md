@@ -1,117 +1,75 @@
-# Proyecto Científico - SPA de Rick and Morty
+Gestor de Eventos - Single Page Application
+EventManager es una aplicación web de página única (SPA) diseñada para la gestión y visualización de eventos. Construida con JavaScript puro, esta plataforma permite a los usuarios explorar, crear y administrar eventos de diversas categorías, ofreciendo funcionalidades específicas según el rol del usuario.
+✨ Características Principales
+El sistema cuenta con tres roles de usuario con diferentes niveles de permisos:
+👤 Rol Administrador
+ * Control Total: Acceso completo para crear, editar y eliminar todos los eventos de la plataforma.
+ * Dashboard Analítico: Visualización de estadísticas clave como el número total de eventos, eventos próximos y usuarios registrados.
+ * Gestión Centralizada: Panel para ver y administrar todos los eventos en un solo lugar.
+✍️ Rol Registrado
+ * Creación de Eventos Propios: Los usuarios registrados pueden crear y publicar sus propios eventos.
+ * Gestión Personal: Panel "Mis Eventos" para editar o eliminar únicamente los eventos que han creado.
+ * Suscripción a Eventos: Posibilidad de inscribirse a eventos de otros usuarios y ver sus suscripciones en un panel dedicado.
+👁️ Rol Visitante
+ * Exploración Pública: Visualización de todos los eventos publicados en la plataforma.
+ * Navegación Libre: Acceso de solo lectura a la página principal y los detalles de los eventos.
+ * Llamada a la Acción: Interfaz clara con botones para iniciar sesión o registrarse y acceder a más funcionalidades.
+🛠️ Tecnologías Utilizadas
+Este proyecto fue construido utilizando un stack de tecnologías modernas de frontend:
+ * JavaScript (ES6+): Lógica principal de la aplicación.
+ * Webpack 5: Empaquetador de módulos para compilar y optimizar el código.
+ * Babel: Transpilador para asegurar la compatibilidad del código JavaScript con navegadores antiguos.
+ * json-server: Para simular una API RESTful y una base de datos local a partir de un archivo db.json.
+ * Tailwind CSS: Framework de CSS "utility-first" para un diseño rápido y moderno.
+ * Lucide Icons: Librería de iconos SVG ligera y personalizable.
+🚀 Instalación y Puesta en Marcha
+Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local.
+Prerrequisitos
+Asegúrate de tener instalado Node.js (que incluye npm) en tu sistema.
+Pasos de Instalación
+ * Clona el repositorio:
+   git clone https://github.com/tu-usuario/tu-repositorio.git
+cd tu-repositorio
 
-Una aplicación de página única creada con JavaScript vanilla, Webpack y la API de Rick and Morty.
+ * Instala las dependencias del proyecto:
+   Este comando leerá el archivo package.json e instalará todas las librerías necesarias (Webpack, Babel, etc.).
+   npm install
 
-quiero que funcione el travis 
-parece que travis ahora si quiere funcionar 
-prueba de datos 
+ * Ejecuta los servidores:
+   Para que la aplicación funcione correctamente, necesitas ejecutar dos servidores al mismo tiempo en terminales separadas.
+   * En la primera terminal, inicia el servidor de la base de datos simulada:
+     Este comando vigilará el archivo db.json y servirá los datos en http://localhost:4000.
+     npm run json:server
 
-errores actuales 
-al cambiar de nombre de src/templates/Header.js creo que esta generando muchos errores ya que esta variable siempre estuvo en todos los demas archivos por lo cual creo que lo mas recomendable es no cambiar el nombre. 
+   * En la segunda terminal, inicia el servidor de desarrollo de Webpack:
+     Este comando compilará el proyecto, lo servirá en http://localhost:8080 y se recargará automáticamente cada vez que hagas un cambio en el código.
+     npm start
 
-los usuarios admin y register no pueden editar los eventos sale un error 
-error cuando un usuario register quiere editar su evento 
-Uncaught runtime errors:
-×
-ERROR
-page.render is not a function
-TypeError: page.render is not a function
-    at eval (webpack://eventos_spa/./src/routes/index.js?:102:23)
-    at Generator.eval (webpack://eventos_spa/./src/routes/index.js?:18:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/routes/index.js?:19:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/routes/index.js?:20:70)
-    at _next (webpack://eventos_spa/./src/routes/index.js?:21:163)
+ * ¡Listo! Abre tu navegador y visita http://localhost:8080 para ver la aplicación en funcionamiento.
+📜 Scripts Disponibles
+En el archivo package.json encontrarás los siguientes scripts:
+ * npm start: Inicia el servidor de desarrollo de Webpack con recarga en caliente.
+ * npm run build: Compila y empaqueta la aplicación para producción. Los archivos optimizados se guardarán en la carpeta dist/.
+ * npm run json:server: Inicia json-server para simular la API en el puerto 4000.
+📂 Estructura del Proyecto
+/
+├── dist/               # Archivos de producción generados por Webpack.
+├── node_modules/       # Dependencias del proyecto.
+├── public/
+│   └── index.html      # Plantilla HTML principal.
+├── src/
+│   ├── pages/          # Componentes de página (HomePage, Login, AdminDashboard, etc.).
+│   ├── templates/      # Componentes reutilizables (Header/Sidebar).
+│   ├── utils/          # Funciones de ayuda (getData, getHash, etc.).
+│   ├── index.js        # Punto de entrada principal de la aplicación.
+├── .gitignore          # Archivos y carpetas ignorados por Git.
+├── db.json             # Base de datos simulada para json-server.
+├── package.json        # Manifiesto del proyecto y dependencias.
+├── README.md           # Este archivo.
+└── webpack.config.js   # Configuración de Webpack.
 
-error que muestra al editar un evento en usuario admin 
-Uncaught runtime errors:
-×
-ERROR
-page.render is not a function
-TypeError: page.render is not a function
-    at eval (webpack://eventos_spa/./src/routes/index.js?:102:23)
-    at Generator.eval (webpack://eventos_spa/./src/routes/index.js?:18:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/routes/index.js?:19:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/routes/index.js?:20:70)
-    at _next (webpack://eventos_spa/./src/routes/index.js?:21:163)
-
-como vamos a poner la barra lateral el diseño que me generaste me parece muy bien, recuerda que este diseño debe estar en todas las pestañas menos en iniciar sesion y en registrarse en esa parte no abra barra lateral izquierda 
-
-para usuarios que no se encuentrar registrados mostrar la barra lateral con los botones de inicio de sesion y registrarse y como solo es un visitante mostrar la informacion normal de los eventos como lo teniamos antes 
-
-la barra lateral izquierda va a cambiar dependiendo el rol del usuario sin embargo es los mimsmos botones que teniamos anteriormente, lo unico que se le añade es simular la foto del usuario, ponerle el nombre y el rol que eso tambien ya lo teniamos antes osea que basicamente es lo mismo pero añadiendo la informacion  del usuario en la barra lateral, ademas los botones de iniciar sesion y registrase creo que no son necesarios cuando se ingresa como usuario admin o register estos botones solo son necesarios cuando, se inicia como visitante. 
-
-ten encuenta actualizar los archivos que contienen rutas o partes del codigo que puedan afectar esta nueva barra lateral, actualizalos para no generar errores. 
-
-Parece que estoy teniendo varios problemas con esta nueva actualizacion lo primero esque cuando inicio mi aplicacion inicia directamente en el user admin, me muestra la barra lateral, pero todo el otro contenido de los eventos las secciones no me lo muestra ademas en el panel lateral cuando presiono un boton me sale error por ejemplo 
-usuario admin boton de dashboard siguiente error 
-Uncaught runtime errors:
-×
-ERROR
-lucide is not defined
-ReferenceError: lucide is not defined
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:47:13)
-    at Generator.eval (webpack://eventos_spa/./src/templates/Header.js?:6:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/templates/Header.js?:7:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/templates/Header.js?:8:70)
-    at _next (webpack://eventos_spa/./src/templates/Header.js?:9:163)
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:9:299)
-    at new Promise (<anonymous>)
-    at Object.eval (webpack://eventos_spa/./src/templates/Header.js?:9:90)
-    at Object.after_render (webpack://eventos_spa/./src/templates/Header.js?:61:28)
-    at eval (webpack://eventos_spa/./src/routes/index.js?:77:76)
-
-usuario admin boton de administrar eventos siguiente error 
-
-Uncaught runtime errors:
-×
-ERROR
-lucide is not defined
-ReferenceError: lucide is not defined
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:47:13)
-    at Generator.eval (webpack://eventos_spa/./src/templates/Header.js?:6:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/templates/Header.js?:7:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/templates/Header.js?:8:70)
-    at _next (webpack://eventos_spa/./src/templates/Header.js?:9:163)
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:9:299)
-    at new Promise (<anonymous>)
-    at Object.eval (webpack://eventos_spa/./src/templates/Header.js?:9:90)
-    at Object.after_render (webpack://eventos_spa/./src/templates/Header.js?:61:28)
-    at eval (webpack://eventos_spa/./src/routes/index.js?:77:76)
-
-usuario admin boton de crear evento siguiente error 
-
-Uncaught runtime errors:
-×
-ERROR
-lucide is not defined
-ReferenceError: lucide is not defined
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:47:13)
-    at Generator.eval (webpack://eventos_spa/./src/templates/Header.js?:6:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/templates/Header.js?:7:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/templates/Header.js?:8:70)
-    at _next (webpack://eventos_spa/./src/templates/Header.js?:9:163)
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:9:299)
-    at new Promise (<anonymous>)
-    at Object.eval (webpack://eventos_spa/./src/templates/Header.js?:9:90)
-    at Object.after_render (webpack://eventos_spa/./src/templates/Header.js?:61:28)
-    at eval (webpack://eventos_spa/./src/routes/index.js?:77:76)
-
-usuario admin boton de salir siguiente error 
-
-Uncaught runtime errors:
-×
-ERROR
-lucide is not defined
-ReferenceError: lucide is not defined
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:47:13)
-    at Generator.eval (webpack://eventos_spa/./src/templates/Header.js?:6:1660)
-    at Generator.eval [as next] (webpack://eventos_spa/./src/templates/Header.js?:7:362)
-    at asyncGeneratorStep (webpack://eventos_spa/./src/templates/Header.js?:8:70)
-    at _next (webpack://eventos_spa/./src/templates/Header.js?:9:163)
-    at eval (webpack://eventos_spa/./src/templates/Header.js?:9:299)
-    at new Promise (<anonymous>)
-    at Object.eval (webpack://eventos_spa/./src/templates/Header.js?:9:90)
-    at Object.after_render (webpack://eventos_spa/./src/templates/Header.js?:61:28)
-    at eval (webpack://eventos_spa/./src/routes/index.js?:77:76)
-
-
+✒️ Autor
+Luis David Ducuara
+ * GitHub: @LuisDa87
+📄 Licencia
+Este proyecto está bajo la Licencia MIT.
