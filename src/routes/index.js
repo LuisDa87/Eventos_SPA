@@ -1,4 +1,4 @@
-import Header from '../templates/Header';
+import Header from '../templates/Header'; // Mantenemos el nombre de la importación
 import HomePage from '../pages/HomePage';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -17,28 +17,38 @@ const routes = {
     '/': HomePage,
     '/login': Login,
     '/register': Register,
-    // Rutas Admin
     '/admin/dashboard': AdminDashboard,
     '/admin/events': AdminEvents,
-    // Rutas Register
     '/my-events': MyEvents,
     '/my-subscriptions': MySubscriptions,
-    // Rutas Compartidas (Protegidas)
     '/create-event': EventForm,
     '/edit-event/:id': EventForm,
 };
 
 const router = async () => {
-    const header = document.getElementById('header');
-    const content = document.getElementById('content');
+    // Apuntamos a los nuevos contenedores del layout
+    const sidebarContainer = document.getElementById('sidebar');
+    const contentContainer = document.getElementById('content');
     
-    header.innerHTML = await Header.render();
-    await Header.after_render();
-
     let hash = getHash();
     let route = await resolveRoutes(hash);
+
+    // Rutas que no deben mostrar la barra lateral
+    const routesWithoutSidebar = ['/login', '/register'];
+
+    if (routesWithoutSidebar.includes(route)) {
+        sidebarContainer.innerHTML = ''; // Ocultamos la barra lateral
+        sidebarContainer.classList.add('hidden');
+        contentContainer.classList.add('w-full');
+    } else {
+        // Para todas las demás rutas, mostramos la barra lateral
+        sidebarContainer.innerHTML = await Header.render(); // Header ahora es nuestra barra lateral
+        await Header.after_render();
+        sidebarContainer.classList.remove('hidden');
+        contentContainer.classList.remove('w-full');
+    }
     
-    // --- GUARDIÁN DE RUTAS MEJORADO ---
+    // --- GUARDIÁN DE RUTAS (sin cambios en la lógica) ---
     const session = getSession();
     const adminRoutes = ['/admin/dashboard', '/admin/events'];
     const registerRoutes = ['/my-events', '/my-subscriptions'];
@@ -72,7 +82,7 @@ const router = async () => {
 
     let page = routes[route] ? routes[route] : Error404;
 
-    content.innerHTML = await page.render();
+    contentContainer.innerHTML = await page.render();
     if (page.after_render) {
         await page.after_render();
     }
