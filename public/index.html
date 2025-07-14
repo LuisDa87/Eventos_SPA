@@ -4,23 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Eventos</title>
+    <!-- Tailwind CSS para estilos rápidos y modernos -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para una tipografía limpia -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Iconos para la barra lateral -->
+    <!-- Lucide Icons para los iconos de la barra lateral -->
     <script src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide.min.js"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        /* Aplicamos la fuente base a todo el cuerpo del documento */
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Contenedor principal con Flexbox -->
+    <!-- 
+      Este es el contenedor principal del layout. 
+      'flex' lo convierte en un contenedor flexible.
+      'min-h-screen' asegura que ocupe al menos toda la altura de la pantalla.
+    -->
     <div class="flex min-h-screen">
-        <!-- Barra lateral (se renderizará aquí desde el router) -->
+        <!-- 
+          Contenedor para la barra lateral. 
+          El router se encargará de rellenar o vaciar este elemento.
+        -->
         <aside id="sidebar"></aside>
 
-        <!-- Contenido principal que ocupa el resto del espacio -->
+        <!-- 
+          Contenedor para el contenido principal.
+          'flex-grow' hace que ocupe todo el espacio restante.
+          El router renderizará aquí las diferentes páginas (HomePage, AdminEvents, etc.).
+        -->
         <main id="content" class="flex-grow"></main>
     </div>
 </body>
