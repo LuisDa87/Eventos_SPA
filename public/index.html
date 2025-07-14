@@ -8,13 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Iconos para la barra lateral -->
+    <script src="https://unpkg.com/lucide-react@0.292.0/dist/umd/lucide.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
-        html { scroll-padding-top: 4rem; }
     </style>
 </head>
 <body class="bg-gray-50">
-    <header id="header"></header>
-    <main id="content"></main>
+    <!-- Contenedor principal con Flexbox -->
+    <div class="flex min-h-screen">
+        <!-- Barra lateral (se renderizará aquí desde el router) -->
+        <aside id="sidebar"></aside>
+
+        <!-- Contenido principal que ocupa el resto del espacio -->
+        <main id="content" class="flex-grow"></main>
+    </div>
 </body>
 </html>
