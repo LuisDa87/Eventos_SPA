@@ -72,4 +72,7 @@ En el archivo package.json encontrarás los siguientes scripts:
 Luis David Ducuara
  * GitHub: @LuisDa87
 📄 Licencia
+
+Ajustes: <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
 Este proyecto está bajo la Licencia MIT.
