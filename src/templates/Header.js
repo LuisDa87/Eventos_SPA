@@ -1,13 +1,14 @@
 import { getSession, clearSession } from '../utils/session';
 
-const Header = { // Mantenemos el nombre Header para no romper importaciones
+const Header = {
     render: async () => {
         const session = getSession();
         
         // --- VISTA PARA VISITANTES (SIN SESIÓN) ---
         if (!session) {
+            // Se ha eliminado 'min-h-screen' de la siguiente línea para permitir el scroll
             return `
-                <div class="w-64 min-h-screen bg-purple-100 p-6 flex flex-col shadow-lg">
+                <div class="w-64 bg-purple-100 p-6 flex flex-col shadow-lg">
                     <h1 class="text-2xl font-bold text-purple-800 mb-8">EventManager</h1>
                     <div class="text-center mb-10">
                         <i data-lucide="users" class="w-20 h-20 mx-auto text-purple-400"></i>
@@ -41,8 +42,9 @@ const Header = { // Mantenemos el nombre Header para no romper importaciones
             `
         };
 
+        // Se ha eliminado 'min-h-screen' de la siguiente línea para permitir el scroll
         return `
-            <div class="w-64 min-h-screen bg-purple-100 p-6 flex flex-col shadow-lg">
+            <div class="w-64 bg-purple-100 p-6 flex flex-col shadow-lg">
                 <h1 class="text-2xl font-bold text-purple-800 mb-8">EventManager</h1>
                 <div class="flex items-center mb-10">
                     <img src="${avatarUrl}" alt="Avatar" class="w-16 h-16 rounded-full border-4 border-purple-200">
@@ -63,10 +65,6 @@ const Header = { // Mantenemos el nombre Header para no romper importaciones
         `;
     },
     after_render: async () => {
-        // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
-        // Verificamos si la librería 'lucide' ya está disponible en el objeto 'window'.
-        // Si no lo está, no hacemos nada para evitar el error.
-        // Como el router se ejecuta en cada cambio de hash, eventualmente los iconos se cargarán.
         if (window.lucide) {
             lucide.createIcons();
         }
